@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./config/dataBase");
+const db = require("./config/database.js");
 const dotenv = require("dotenv").config();
-const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes = require("./routes/adminRoutes.js");
 
 const app = express();
 

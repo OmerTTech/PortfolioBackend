@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 // Modelleri içeri aktar
-const Slide = require("../models/slidesModel");
-const Contact = require("../models/contactModel");
-const Portfolio = require("../models/portfolioModel");
-const Qualf = require("../models/qualfModel");
+const Slide = require("../models/slidesModel.js");
+const Contact = require("../models/contactModel.js");
+const Portfolio = require("../models/portfolioModel.js");
+const Qualf = require("../models/qualfModel.js");
 
 // SLIDES (SLAYTLAR)
 // Tüm slaytları getir (READ)
