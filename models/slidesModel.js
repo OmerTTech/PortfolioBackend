@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const slideSchema = mongoose.Schema(
   {
     title: {
-      type: String,
-      required: true,
+      az: { type: String, required: true },
+      en: { type: String, required: true },
     },
     text: {
-      type: String,
-      required: true,
+      az: { type: String, required: true },
+      en: { type: String, required: true },
     },
   },
   {

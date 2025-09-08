@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const portfolioSchema = mongoose.Schema({
   title: {
-    type: String,
-    required: true,
+    az: { type: String, required: true },
+    en: { type: String, required: true },
   },
   text: {
-    type: String,
-    required: true,
+    az: { type: String, required: true },
+    en: { type: String, required: true },
   },
   demoLink: {
     type: String,

@@ -8,26 +8,29 @@ const Portfolio = require("../models/portfolioModel.js");
 const Qualf = require("../models/qualfModel.js");
 
 // SLIDES (SLAYTLAR)
-// Tüm slaytları getir (READ)
-router.get("/slides", async (req, res) => {
+// DİLE GÖRE tüm slaytları getir (READ)
+router.get("/slides/:lang", async (req, res) => {
+  const { lang } = req.params;
   const slides = await Slide.find();
-  res.json(slides);
+
+  const filteredSlides = slides.map((slide) => ({
+    _id: slide._id,
+    title: slide.title[lang],
+    text: slide.text[lang],
+  }));
+  res.json(filteredSlides);
 });
 
 // Yeni slayt oluştur (CREATE)
 router.post("/slides", async (req, res) => {
-  const { title, text } = req.body;
-  const newSlide = await Slide.create({
-    title,
-    text,
-  });
+  const newSlide = await Slide.create(req.body);
   res.status(201).json(newSlide);
 });
 
 // Belirli bir slaytı güncelle (UPDATE)
 router.put("/slides/:id", async (req, res) => {
   const updatedSlide = await Slide.findByIdAndUpdate(req.params.id, req.body, {
-    new: true, // Güncellenmiş belgeyi döndürür
+    new: true,
   });
   res.json(updatedSlide);
 });
@@ -38,7 +41,8 @@ router.delete("/slides/:id", async (req, res) => {
   res.status(200).json({ message: "Slayt başarıyla silindi." });
 });
 
-// CONTACT (İLETİŞİM)
+// --- CONTACT (İLETİŞİM) ---
+// Not: Contact modeli iki dilli olmadığı için eski haliyle kalıyor.
 // İletişim verilerini getir (READ)
 router.get("/contacts", async (req, res) => {
   const contacts = await Contact.find();
@@ -57,11 +61,20 @@ router.put("/contacts/:id", async (req, res) => {
   res.json(updatedContact);
 });
 
-// PORTFOLIO (PROJELER)
-// Tüm portfolyo projelerini getir (READ)
-router.get("/portfolios", async (req, res) => {
+// --- PORTFOLIO (PROJELER) ---
+// DİLE GÖRE tüm portfolyo projelerini getir (READ)
+router.get("/portfolios/:lang", async (req, res) => {
+  const { lang } = req.params;
   const portfolios = await Portfolio.find();
-  res.json(portfolios);
+
+  const filteredPortfolios = portfolios.map((portfolio) => ({
+    _id: portfolio._id,
+    title: portfolio.title[lang],
+    text: portfolio.text[lang],
+    image: portfolio.image,
+    demoLink: portfolio.demoLink,
+  }));
+  res.json(filteredPortfolios);
 });
 
 // Yeni portfolyo projesi oluştur (CREATE)
@@ -88,25 +101,41 @@ router.delete("/portfolios/:id", async (req, res) => {
   res.status(200).json({ message: "Proje başarıyla silindi." });
 });
 
-// QUALF (NİTELİKLER)
-// Tüm nitelikleri getir (READ)
-router.get("/qualfs", async (req, res) => {
+// --- QUALF (NİTELİKLER) ---
+// DİLE GÖRE tüm nitelikleri getir (READ)
+router.get("/qualfs/:lang", async (req, res) => {
+  const { lang } = req.params;
   const qualfs = await Qualf.find();
-  res.json(qualfs);
+
+  const filteredQualfs = qualfs.map((qualf) => ({
+    _id: qualf._id,
+    title: qualf.title[lang],
+    company: qualf.company[lang],
+    years: qualf.years,
+    category: qualf.category,
+  }));
+  res.json(filteredQualfs);
 });
 
-// Belirli bir kategoriye göre nitelikleri getir (READ by category)
-// Örnek: GET /api/admin/qualfs/workExperience
-// veya GET /api/admin/qualfs/education
-router.get("/qualfs/:category", async (req, res) => {
-  const { category } = req.params;
+// DİLE GÖRE belirli bir kategoriye göre nitelikleri getir (READ by category)
+// Örnek: GET /api/admin/qualfs/education/az
+router.get("/qualfs/:category/:lang", async (req, res) => {
+  const { category, lang } = req.params;
   try {
-    const filteredQualfs = await Qualf.find({ category: category });
-    if (filteredQualfs.length === 0) {
+    const qualfs = await Qualf.find({ category: category });
+    if (qualfs.length === 0) {
       return res
         .status(404)
         .json({ message: "Bu kategoriye ait veri bulunamadı." });
     }
+
+    const filteredQualfs = qualfs.map((qualf) => ({
+      _id: qualf._id,
+      title: qualf.title[lang],
+      company: qualf.company[lang],
+      years: qualf.years,
+      category: qualf.category,
+    }));
     res.json(filteredQualfs);
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });

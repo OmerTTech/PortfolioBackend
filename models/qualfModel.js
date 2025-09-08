@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const qualfSchema = mongoose.Schema({
   title: {
-    type: String,
-    required: true,
+    az: { type: String, required: true },
+    en: { type: String, required: true },
   },
   company: {
-    type: String,
-    required: true,
+    az: { type: String, required: true },
+    en: { type: String, required: true },
   },
   years: {
     type: String,
