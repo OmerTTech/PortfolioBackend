@@ -6,6 +6,7 @@ const Slide = require("../models/slidesModel.js");
 const Contact = require("../models/contactModel.js");
 const Portfolio = require("../models/portfolioModel.js");
 const Qualf = require("../models/qualfModel.js");
+const Message = require("../models/messageModel.js");
 
 // SLIDES (SLAYTLAR)
 // DİLE GÖRE tüm slaytları getir (READ)
@@ -160,6 +161,33 @@ router.put("/qualfs/:id", async (req, res) => {
 router.delete("/qualfs/:id", async (req, res) => {
   await Qualf.findByIdAndDelete(req.params.id);
   res.status(200).json({ message: "Nitelik başarıyla silindi." });
+});
+
+// Yeni bir mesaj oluştur (CREATE)
+router.post("/messages", async (req, res) => {
+  try {
+    const newMessage = await Message.create(req.body);
+    res.status(201).json(newMessage);
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        message: "Mesaj gönderilirken bir hata oluştu.",
+        error: error.message,
+      });
+  }
+});
+
+// Tüm mesajları getir (READ)
+router.get("/messages", async (req, res) => {
+  const messages = await Message.find();
+  res.json(messages);
+});
+
+// Belirli bir mesajı sil (DELETE)
+router.delete("/messages/:id", async (req, res) => {
+  await Message.findByIdAndDelete(req.params.id);
+  res.status(200).json({ message: "Mesaj başarıyla silindi." });
 });
 
 module.exports = router;
