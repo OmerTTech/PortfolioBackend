@@ -16,6 +16,71 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
 app.use("/api/admin", adminRoutes);
 
+// Public API routes for frontend
+app.get("/slides/:lang", async (req, res) => {
+  const { lang } = req.params;
+  const slides = await Slide.find();
+  const filteredSlides = slides.map((slide) => ({
+    _id: slide._id,
+    title: slide.title[lang],
+    text: slide.text[lang],
+    image: slide.image,
+  }));
+  res.json(filteredSlides);
+});
+
+app.get("/portfolios/:lang", async (req, res) => {
+  const { lang } = req.params;
+  const portfolios = await Portfolio.find();
+  const filteredPortfolios = portfolios.map((portfolio) => ({
+    _id: portfolio._id,
+    title: portfolio.title[lang],
+    text: portfolio.text[lang],
+    image: portfolio.image,
+    demoLink: portfolio.demoLink,
+  }));
+  res.json(filteredPortfolios);
+});
+
+app.get("/qualfs/:category/:lang", async (req, res) => {
+  const { category, lang } = req.params;
+  const qualfs = await Qualf.find({ category: category });
+  const filteredQualfs = qualfs.map((qualf) => ({
+    _id: qualf._id,
+    title: qualf.title[lang],
+    company: qualf.company[lang],
+    years: qualf.years,
+    category: qualf.category,
+  }));
+  res.json(filteredQualfs);
+});
+
+app.get("/contacts", async (req, res) => {
+  const { lang } = req.query;
+  const contacts = await Contact.find();
+  if (lang) {
+    const filteredContacts = contacts.map((contact) => ({
+      _id: contact._id,
+      MyPhone: contact.MyPhone,
+      MyPhoneLink: contact.MyPhoneLink,
+      MyEmail: contact.MyEmail,
+      MyEmailLink: contact.MyEmailLink,
+      MyLocation: typeof contact.MyLocation === 'object' ? contact.MyLocation[lang] : contact.MyLocation,
+      MyGithub: contact.MyGithub,
+      MyLinkedin: contact.MyLinkedin,
+    }));
+    res.json(filteredContacts);
+  } else {
+    res.json(contacts);
+  }
+});
+
+app.post("/messages", async (req, res) => {
+  const Message = require("./models/messageModel.js");
+  const newMessage = await Message.create(req.body);
+  res.status(201).json(newMessage);
+});
+
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
   if (username === "admin" && password === "omer123") {
