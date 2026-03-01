@@ -38,6 +38,7 @@ app.get("/portfolios/:lang", async (req, res) => {
     text: portfolio.text[lang],
     image: portfolio.image,
     demoLink: portfolio.demoLink,
+    tools: portfolio.tools || [],
   }));
   res.json(filteredPortfolios);
 });

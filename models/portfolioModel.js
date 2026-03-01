@@ -17,6 +17,9 @@ const portfolioSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  tools: [{
+    type: String,
+  }],
 });
 
 module.exports = mongoose.model("Portfolio", portfolioSchema);
