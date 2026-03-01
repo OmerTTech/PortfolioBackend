@@ -90,3 +90,48 @@ app.listen(PORT, () => console.log("Server is running on port: " + PORT));
 app.get("/", (req, res) => {
   res.send("API çalışıyor!");
 });
+
+app.get("/api/slides/:lang", async (req, res) => {
+  try {
+    const slides = await Slide.find({ lang: req.params.lang });
+    res.json(slides);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/portfolios/:lang", async (req, res) => {
+  try {
+    const portfolios = await Portfolio.find({ lang: req.params.lang });
+    res.json(portfolios);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/qualfs/:category/:lang", async (req, res) => {
+  try {
+    const qualfs = await Qualf.find({ category: req.params.category, lang: req.params.lang });
+    res.json(qualf);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/qualfs/:lang", async (req, res) => {
+  try {
+    const qualfs = await Qualf.find({ lang: req.params.lang });
+    res.json(qualf);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+app.get("/api/contacts", async (req, res) => {
+  try {
+    const contacts = await Contact.find();
+    res.json(contacts);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
