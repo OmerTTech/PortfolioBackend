@@ -81,36 +81,36 @@ app.get("/api/admin-check", (req, res) => {
   res.json({ message: "Admin API is running" });
 });
 
-app.get("/api/slides/:lang", async (req, res) => {
+app.get("/api/slides", async (req, res) => {
   try {
-    const slides = await Slide.find({ lang: req.params.lang });
+    const slides = await Slide.find();
     res.json(slides);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-app.get("/api/portfolios/:lang", async (req, res) => {
+app.get("/api/portfolios", async (req, res) => {
   try {
-    const portfolios = await Portfolio.find({ lang: req.params.lang });
+    const portfolios = await Portfolio.find();
     res.json(portfolios);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-app.get("/api/qualfs/:category/:lang", async (req, res) => {
+app.get("/api/qualfs", async (req, res) => {
   try {
-    const qualfs = await Qualf.find({ category: req.params.category, lang: req.params.lang });
+    const qualfs = await Qualf.find();
     res.json(qualf);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-app.get("/api/qualfs/:lang", async (req, res) => {
+app.get("/api/qualfs/:category", async (req, res) => {
   try {
-    const qualfs = await Qualf.find({ lang: req.params.lang });
+    const qualfs = await Qualf.find({ category: req.params.category });
     res.json(qualf);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
