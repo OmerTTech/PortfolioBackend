@@ -10,6 +10,9 @@ const slideSchema = mongoose.Schema(
       az: { type: String, required: true },
       en: { type: String, required: true },
     },
+    image: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -18,8 +18,13 @@ const contactSchema = mongoose.Schema({
     required: true,
   },
   MyLocation: {
+    type: mongoose.Schema.Types.Mixed,
+  },
+  MyGithub: {
     type: String,
-    required: true,
+  },
+  MyLinkedin: {
+    type: String,
   },
 });
 
