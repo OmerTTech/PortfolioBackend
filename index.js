@@ -102,7 +102,7 @@ app.get("/api/portfolios", async (req, res) => {
 app.get("/api/qualfs", async (req, res) => {
   try {
     const qualfs = await Qualf.find();
-    res.json(qualf);
+    res.json(qualfs); // Düzeltildi
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -111,7 +111,7 @@ app.get("/api/qualfs", async (req, res) => {
 app.get("/api/qualfs/:category", async (req, res) => {
   try {
     const qualfs = await Qualf.find({ category: req.params.category });
-    res.json(qualf);
+    res.json(qualfs); // Düzeltildi
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
