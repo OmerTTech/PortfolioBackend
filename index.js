@@ -81,16 +81,6 @@ app.get("/api/admin-check", (req, res) => {
   res.json({ message: "Admin API is running" });
 });
 
-const PORT = process.env.PORT || 5000;
-
-db();
-
-app.listen(PORT, () => console.log("Server is running on port: " + PORT));
-
-app.get("/", (req, res) => {
-  res.send("API çalışıyor!");
-});
-
 app.get("/api/slides/:lang", async (req, res) => {
   try {
     const slides = await Slide.find({ lang: req.params.lang });
@@ -134,4 +124,14 @@ app.get("/api/contacts", async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
+});
+
+const PORT = process.env.PORT || 5000;
+
+db();
+
+app.listen(PORT, () => console.log("Server is running on port: " + PORT));
+
+app.get("/", (req, res) => {
+  res.send("API çalışıyor!");
 });
