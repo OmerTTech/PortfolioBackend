@@ -108,15 +108,6 @@ app.get("/api/qualfs", async (req, res) => {
   }
 });
 
-app.get("/api/qualfs", async (req, res) => {
-  try {
-    const qualfs = await Qualf.find();
-    res.json(qualf);
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
 app.get("/api/qualfs/:category", async (req, res) => {
   try {
     const qualfs = await Qualf.find({ category: req.params.category });
